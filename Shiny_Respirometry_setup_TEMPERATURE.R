@@ -12,7 +12,8 @@ library(shiny)
 library(ggplot2)
 
 ui <- fluidPage(
-  titlePanel("Channel selection and timing inputs\nfor frog stop-flow respirometry"),
+  titlePanel("Channel selection and timing inputs for frog stop-flow respirometry"),
+  h3("Including long baseline for temperature manipulation"),
   h4("by Matias Munoz"),
   h4("version: 1.0.0 (last update: 05 June 2026)"),
   
@@ -26,10 +27,10 @@ ui <- fluidPage(
   "The 'Sampling flush time' is the amount of time that the chamber is open to the inflow of the pump, and during which air flows into the FSM to analyze the gases. (e.g., default is 10 minutes).",
   br(),
   br(),
-  "The 'Inter-repetition baseline time' is the duration of a Channel 1 (Baseline) flush inserted between each sampling repetition (default is 30 minutes = 1800 seconds).",
+  "The 'Inter-repetition baseline time' is the duration of a Channel 1 (Baseline) flush inserted between each sampling repetition to allow temperature to change between repetitions (default is 30 minutes = 1800 seconds).",
   br(),
   br(),
-  "What to make changes? In the Desktop go to 'Matias 2025' folder, then 'ShinnyApps' folder, and edit the 'Shiny_Respirometry_setup.R' file.",
+  "What to make changes? In the Desktop go to 'Matias_2026' folder, then 'ShinnyApps' folder, and edit the 'Shiny_Respirometry_setup.R' or 'Shiny_Respirometry_setup_TEMPERATURE.R' files.",
   br(),
   br(),
   "ALWAYS MAKE SURE THE FILE IS CORRECT AFTER DOWNLOADING.",
@@ -139,11 +140,11 @@ server <- function(input, output, session) {
 
     
     # ── Final baseline (sampling_flush) ────────────────────────────────────────
-    Seconds <- c(Seconds, current_time)
-    Marker  <- c(Marker, "B")
-    Channel <- c(Channel, 0)
-
-    current_time <- current_time + sampling_flush
+    # Seconds <- c(Seconds, current_time)
+    # Marker  <- c(Marker, "B")
+    # Channel <- c(Channel, 0)
+    # 
+    # current_time <- current_time + sampling_flush
 
     
     
@@ -332,7 +333,7 @@ server <- function(input, output, session) {
   # ── Download handler ─────────────────────────────────────────────────────────
   output$download_txt <- downloadHandler(
     filename = function() {
-      paste0("respirometry_schedule_", format(Sys.time(), "%d-%m-%Y"), ".txt")
+      paste0("respirometry_schedule_Temp_", format(Sys.time(), "%d-%m-%Y"), ".txt")
     },
     content = function(file) {
       write.table(
