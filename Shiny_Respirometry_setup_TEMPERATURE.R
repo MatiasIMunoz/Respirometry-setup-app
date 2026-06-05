@@ -17,20 +17,21 @@ ui <- fluidPage(
   h4("by Matias Munoz"),
   h4("version: 1.0.0 (last update: 05 June 2026)"),
   
-  "Use this App to create the .txt files that control the switching of channels in the Flow Multiplexer.
+  "Use this application to create the .txt files that control the switching of channels in the Flow Multiplexer.
      By default, the files are saved in the Downloads folder, and have today's date in the name file.",
   br(),
   br(),
-  "The 'Initial flush time' corresponds to the first flushing of the chambers before obtaining adequate measurements. It's usually a short duration flushing (e.g., default is 2 minutes).",
+  "The 'Initial flush time' corresponds to the first flushing of the chambers before obtaining adequate measurements. It's usually a short duration flushing (default is 2 minutes = 120 seconds).",
   br(),
   br(),
-  "The 'Sampling flush time' is the amount of time that the chamber is open to the inflow of the pump, and during which air flows into the FSM to analyze the gases. (e.g., default is 10 minutes).",
+  "The 'Sampling flush time' is the amount of time that the chamber is open to the inflow of the pump, and during which air flows into the FSM to analyze the gases. (default is 10 minutes = 600 seconds).",
   br(),
   br(),
   "The 'Inter-repetition baseline time' is the duration of a Channel 1 (Baseline) flush inserted between each sampling repetition to allow temperature to change between repetitions (default is 30 minutes = 1800 seconds).",
   br(),
   br(),
   "What to make changes? In the Desktop go to 'Matias_2026' folder, then 'ShinnyApps' folder, and edit the 'Shiny_Respirometry_setup.R' or 'Shiny_Respirometry_setup_TEMPERATURE.R' files.",
+  "The original code can also be downloaded from: https://github.com/MatiasIMunoz/Respirometry-setup-app",
   br(),
   br(),
   "ALWAYS MAKE SURE THE FILE IS CORRECT AFTER DOWNLOADING.",
@@ -84,16 +85,16 @@ ui <- fluidPage(
     
     mainPanel(
       
-      h4("Final timing summary"),
+      h4("Final timing summary:"),
       verbatimTextOutput("final_timing"),
       
-      h4("Timeline of channel events"),
+      h4("Live preview of timeline:"),
       plotOutput("timeline_plot", height = "300px"),
       
-      h4("Live preview of respirometry table"),
+      h4("Live preview of respirometry table:"),
       tableOutput("preview_table"),
       
-      h4("Selected inputs"),
+      h4("Selected inputs:"),
       verbatimTextOutput("output")
       
     )
@@ -212,7 +213,7 @@ server <- function(input, output, session) {
       round(final_minutes, 2), " minutes\n",
       round(final_hours,   2), " hours\n\n",
       "Estimated End Time (if you started exactly now):\n",
-      format(end_time, "%Y-%m-%d %H:%M:%S")
+      format(end_time, "%d/%B/%Y %H:%M:%S")
     )
   })
   
@@ -324,8 +325,7 @@ server <- function(input, output, session) {
         axis.text.y      = element_blank(),
         axis.ticks.y     = element_blank(),
         legend.position  = "top"
-      ) +
-      ggtitle("Respirometry schedule — channel switching events")
+      ) 
   })
   
   # ── Download handler ─────────────────────────────────────────────────────────
