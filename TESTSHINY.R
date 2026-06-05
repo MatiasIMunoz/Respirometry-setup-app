@@ -12,7 +12,8 @@ library(shiny)
 library(ggplot2)
 
 ui <- fluidPage(
-  titlePanel("Channel selection and timing inputs\nfor frog stop-flow respirometry"),
+  titlePanel("Channel selection and timing inputs for frog stop-flow respirometry"),
+  h3("Including long baseline for temperature manipulation"),
   h4("by Matias Munoz"),
   h4("version: 1.0.0 (last update: 05 June 2026)"),
   
@@ -26,10 +27,10 @@ ui <- fluidPage(
   "The 'Sampling flush time' is the amount of time that the chamber is open to the inflow of the pump, and during which air flows into the FSM to analyze the gases. (e.g., default is 10 minutes).",
   br(),
   br(),
-  "The 'Inter-repetition baseline time' is the duration of a Channel 1 (Baseline) flush inserted between each sampling repetition (default is 30 minutes = 1800 seconds).",
+  "The 'Inter-repetition baseline time' is the duration of a Channel 1 (Baseline) flush inserted between each sampling repetition to allow temperature to change between repetitions (default is 30 minutes = 1800 seconds).",
   br(),
   br(),
-  "What to make changes? In the Desktop go to 'Matias 2025' folder, then 'ShinnyApps' folder, and edit the 'Shiny_Respirometry_setup.R' file.",
+  "What to make changes? In the Desktop go to 'Matias_2026' folder, then 'ShinnyApps' folder, and edit the 'Shiny_Respirometry_setup.R' or 'Shiny_Respirometry_setup_TEMPERATURE.R' files.",
   br(),
   br(),
   "ALWAYS MAKE SURE THE FILE IS CORRECT AFTER DOWNLOADING.",
@@ -142,33 +143,31 @@ server <- function(input, output, session) {
     Seconds <- c(Seconds, current_time)
     Marker  <- c(Marker, "B")
     Channel <- c(Channel, 0)
-    
+
     current_time <- current_time + sampling_flush
-    
+
     
     
     
     # ── Sampling cycles with 30-min baselines between repetitions ─────────────
     for (rep in 1:n_reps) {
       
-      # Sampling channels for this repetition
-      for (ch in channels) {
-        Seconds <- c(Seconds, current_time)
-        Marker  <- c(Marker,  if (ch == 1) "B" else as.character(ch))
-        Channel <- c(Channel, if (ch == 1) 0   else ch - 1)
-        current_time <- current_time + sampling_flush
-      }
-      
-      # 30-min inter-repetition baseline — inserted after every rep except the last
-      # (the two final baselines below already cover the end)
-      if (rep < n_reps) {
+      # 30-min inter-repetition baseline — inserted BEFORE each rep except the first
+      if (rep > 1) {
         Seconds <- c(Seconds, current_time)
         Channel <- c(Channel, 0)
         Marker  <- c(Marker,  "B")
         current_time <- current_time + inter_rep_base
       }
       
-      
+      # Sampling channels for this repetition - exclude Channel 1 baseline
+      sampling_channels <- channels[channels > 1]
+      for (ch in sampling_channels) {
+        Seconds <- c(Seconds, current_time)
+        Marker  <- c(Marker, as.character(ch))
+        Channel <- c(Channel, ch - 1)
+        current_time <- current_time + sampling_flush
+      }
     }
     
     
@@ -332,7 +331,7 @@ server <- function(input, output, session) {
   # ── Download handler ─────────────────────────────────────────────────────────
   output$download_txt <- downloadHandler(
     filename = function() {
-      paste0("respirometry_schedule_", format(Sys.time(), "%d-%m-%Y"), ".txt")
+      paste0("respirometry_schedule_Temp_", format(Sys.time(), "%d-%m-%Y"), ".txt")
     },
     content = function(file) {
       write.table(
@@ -350,5 +349,4 @@ server <- function(input, output, session) {
 # Explicitly launch the app in the default browser
 runApp(
   list(ui = ui, server = server),
-  launch.browser = TRUE
-)
+  launch.browser = TRUE)

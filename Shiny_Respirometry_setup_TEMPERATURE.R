@@ -137,39 +137,37 @@ server <- function(input, output, session) {
     }
     
     df1 <- data.frame(Seconds = Seconds, Channel = Channel, Marker  = Marker, stringsAsFactors = FALSE)
-
+    
     
     # ── Final baseline (sampling_flush) ────────────────────────────────────────
-    # Seconds <- c(Seconds, current_time)
-    # Marker  <- c(Marker, "B")
-    # Channel <- c(Channel, 0)
-    # 
-    # current_time <- current_time + sampling_flush
-
+    Seconds <- c(Seconds, current_time)
+    Marker  <- c(Marker, "B")
+    Channel <- c(Channel, 0)
+    
+    current_time <- current_time + sampling_flush
     
     
-
+    
+    
     # ── Sampling cycles with 30-min baselines between repetitions ─────────────
     for (rep in 1:n_reps) {
       
-      # Sampling channels for this repetition
-      for (ch in channels) {
-        Seconds <- c(Seconds, current_time)
-        Marker  <- c(Marker,  if (ch == 1) "B" else as.character(ch))
-        Channel <- c(Channel, if (ch == 1) 0   else ch - 1)
-        current_time <- current_time + sampling_flush
-      }
-      
-      # 30-min inter-repetition baseline — inserted after every rep except the last
-      # (the two final baselines below already cover the end)
-      if (rep < n_reps) {
+      # 30-min inter-repetition baseline — inserted BEFORE each rep except the first
+      if (rep > 1) {
         Seconds <- c(Seconds, current_time)
         Channel <- c(Channel, 0)
         Marker  <- c(Marker,  "B")
         current_time <- current_time + inter_rep_base
       }
       
-      
+      # Sampling channels for this repetition - exclude Channel 1 baseline
+      sampling_channels <- channels[channels > 1]
+      for (ch in sampling_channels) {
+        Seconds <- c(Seconds, current_time)
+        Marker  <- c(Marker, as.character(ch))
+        Channel <- c(Channel, ch - 1)
+        current_time <- current_time + sampling_flush
+      }
     }
     
     
@@ -351,5 +349,4 @@ server <- function(input, output, session) {
 # Explicitly launch the app in the default browser
 runApp(
   list(ui = ui, server = server),
-  launch.browser = TRUE
-)
+  launch.browser = TRUE)
