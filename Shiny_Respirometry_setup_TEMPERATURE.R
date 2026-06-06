@@ -1,8 +1,8 @@
 # A shiny app for creating the .txt files that control the SableSystems Multiplexer.
-# version 1.0.0 
+# version 1.0.1
 # by Matias Munoz
 
-#Last update: 5 June 2026
+#Last update: 6 June 2026
 
 # A shiny app for creating the .txt files that control the SableSystems Multiplexer.
 # by Matias Munoz.
@@ -15,7 +15,7 @@ ui <- fluidPage(
   titlePanel("Channel selection and timing inputs for frog stop-flow respirometry"),
   h3("Including long baseline for temperature manipulation"),
   h4("by Matias Munoz"),
-  h4("version: 1.0.0 (last update: 05 June 2026)"),
+  h4("version: 1.0.1 (last update: 06 June 2026)"),
   
   "Use this application to create the .txt files that control the switching of channels in the Flow Multiplexer.
      By default, the files are saved in the Downloads folder, and have today's date in the name file.",
@@ -24,13 +24,15 @@ ui <- fluidPage(
   "The 'Initial flush time' corresponds to the first flushing of the chambers before obtaining adequate measurements. It's usually a short duration flushing (default is 2 minutes = 120 seconds).",
   br(),
   br(),
-  "The 'Sampling flush time' is the amount of time that the chamber is open to the inflow of the pump, and during which air flows into the FSM to analyze the gases. (default is 10 minutes = 600 seconds).",
+  "The 'Sampling flush time' is the amount of time that the chamber is open to the inflow of the pump, and during which air flows into the FSM to analyze the gases. (default is 8 minutes = 480 seconds).",
   br(),
   br(),
   "The 'Inter-repetition baseline time' is the duration of a Channel 1 (Baseline) flush inserted between each sampling repetition to allow temperature to change between repetitions (default is 30 minutes = 1800 seconds).",
   br(),
   br(),
   "What to make changes? In the Desktop go to 'Matias_2026' folder, then 'ShinnyApps' folder, and edit the 'Shiny_Respirometry_setup.R' or 'Shiny_Respirometry_setup_TEMPERATURE.R' files.",
+  br(),
+  br(),
   "The original code can also be downloaded from: https://github.com/MatiasIMunoz/Respirometry-setup-app",
   br(),
   br(),
@@ -59,7 +61,7 @@ ui <- fluidPage(
       numericInput(
         inputId = "sampling_flush",
         label = "Sampling flush time (seconds):",
-        value = 600,
+        value = 480,
         step = 1,
         min = 0
       ),
@@ -137,7 +139,7 @@ server <- function(input, output, session) {
       current_time <- current_time + initial_flush
     }
     
-    df1 <- data.frame(Seconds = Seconds, Channel = Channel, Marker  = Marker, stringsAsFactors = FALSE)
+    #df1 <- data.frame(Seconds = Seconds, Channel = Channel, Marker  = Marker, stringsAsFactors = FALSE)
     
     
     # ── Final baseline (sampling_flush) ────────────────────────────────────────
@@ -150,19 +152,69 @@ server <- function(input, output, session) {
     
     
     
+    # # ── Sampling cycles with 30-min baselines between repetitions ─────────────
+    # for (rep in 1:n_reps) {
+    #   
+    #   # 30-min inter-repetition baseline — inserted BEFORE each rep except the first
+    #   if (rep > 1) {
+    #     Seconds <- c(Seconds, current_time)
+    #     Channel <- c(Channel, 0)
+    #     Marker  <- c(Marker,  "B")
+    #     current_time <- current_time + inter_rep_base
+    #   }
+    #   
+    #   # Add flushing of 2mins./channel after the 30 mins. baseline (6 June 2026)
+    #   sampling_channels <- channels[channels > 1]
+    #   
+    #   # for (ch in channels) {
+    #   #   Seconds <- c(Seconds, current_time)
+    #   #   Marker  <- c(Marker,  if (ch == 1) "B" else as.character(ch))
+    #   #   Channel <- c(Channel, if (ch == 1) 0   else ch - 1)
+    #   #   current_time <- current_time + initial_flush
+    #   # }
+    #   
+    #   
+    #   for (ch in sampling_channels) {
+    #     Seconds <- c(Seconds, current_time)
+    #     Marker  <- c(Marker,  as.character(ch))
+    #     Channel <- c(Channel, ch - 1)
+    #     current_time <- current_time + initial_flush
+    #   }
+    #   
+    #   # Sampling channels for this repetition - exclude Channel 1 baseline
+    #   for (ch in sampling_channels) {
+    #     Seconds <- c(Seconds, current_time)
+    #     Marker  <- c(Marker, as.character(ch))
+    #     Channel <- c(Channel, ch - 1)
+    #     current_time <- current_time + sampling_flush
+    #   }
+    #   
+    # 
+    # }
+    
+    
     # ── Sampling cycles with 30-min baselines between repetitions ─────────────
+    sampling_channels <- channels[channels > 1]   # move outside loop — never changes
+    
     for (rep in 1:n_reps) {
       
-      # 30-min inter-repetition baseline — inserted BEFORE each rep except the first
       if (rep > 1) {
+        # 30-min inter-repetition baseline
         Seconds <- c(Seconds, current_time)
         Channel <- c(Channel, 0)
         Marker  <- c(Marker,  "B")
         current_time <- current_time + inter_rep_base
+        
+        # 2-min flush per channel — only after a baseline, skip on rep 1
+        for (ch in sampling_channels) {
+          Seconds <- c(Seconds, current_time)
+          Marker  <- c(Marker,  as.character(ch))
+          Channel <- c(Channel, ch - 1)
+          current_time <- current_time + initial_flush
+        }
       }
       
-      # Sampling channels for this repetition - exclude Channel 1 baseline
-      sampling_channels <- channels[channels > 1]
+      # Sampling for this repetition
       for (ch in sampling_channels) {
         Seconds <- c(Seconds, current_time)
         Marker  <- c(Marker, as.character(ch))
@@ -170,9 +222,6 @@ server <- function(input, output, session) {
         current_time <- current_time + sampling_flush
       }
     }
-    
-    
-    
     
     # ── Two final baseline (Channel 1) rows, sampling_flush each ──────────────
     for (i in 1:2) {
@@ -303,14 +352,14 @@ server <- function(input, output, session) {
                  fill          = "white",
                  color         = "black",
                  fontface      = "bold",
-                 size          = 3.2,
+                 size          = 3.5,
                  label.padding = unit(0.25, "lines"),
                  label.r       = unit(0.15, "lines"),
-                 label.size    = 0.4,
+                 label.size    = 0.6,
                  show.legend   = FALSE) +
       scale_colour_manual(
         values = c("Baseline" = "red", "Sample channel" = "steelblue"),
-        name   = "Event type"
+        name   = "Marker type"
       ) +
       scale_x_continuous(
         name   = "Time (minutes)",
@@ -318,7 +367,7 @@ server <- function(input, output, session) {
         expand = c(0.01, 0)
       ) +
       scale_y_continuous(limits = c(0, 1), breaks = NULL, name = NULL) +
-      theme_bw(base_size = 13) +
+      theme_bw(base_size = 15) +
       theme(
         panel.grid.major = element_blank(),
         panel.grid.minor = element_blank(),
