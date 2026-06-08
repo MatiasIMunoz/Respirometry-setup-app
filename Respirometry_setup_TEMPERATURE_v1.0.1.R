@@ -1,44 +1,61 @@
 # A shiny app for creating the .txt files that control the SableSystems Multiplexer.
-# version 1.0.1
-# by Matias Munoz
+# by Matías I. Muñoz (ma.munozsandoval@gmail.com)
 
-#Last update: 6 June 2026
-
-# A shiny app for creating the .txt files that control the SableSystems Multiplexer.
-# by Matias Munoz.
-# Modified: added 30-min inter-repetition baselines and ggplot2 timeline figure.
+app_version <- "1.0.1"
+last_update <- "08 June 2026"
 
 library(shiny)
 library(ggplot2)
 
+#************************************#
+#*
+#* User Interface (UI) ----
+#*
+#***********************************#
+
 ui <- fluidPage(
-  titlePanel("Channel selection and timing inputs for frog stop-flow respirometry"),
-  h3("Including long baseline for temperature manipulation"),
-  h4("by Matias Munoz"),
-  h4("version: 1.0.1 (last update: 08 June 2026)"),
   
-  "Use this application to create the .txt files that control the switching of channels in the Flow Multiplexer.
-     By default, the files are saved in the Downloads folder, and have today's date in the name file.",
+  fluidRow(
+    column(
+      width = 8,
+      height = 2,
+      h2("Channel selection and timing inputs for stop-flow respirometry")
+    ),
+    column(
+      width = 4,
+      height = 2,
+      align = "right",
+      tags$div(
+        style = "margin-top:15px; color:#666; font-size:14px;",
+        strong(paste0("v", app_version)),
+        br(),
+        paste("Last updated:", last_update)
+      )
+    )
+  ),
+  
+  h3("Including long baseline for temperature manipulation"),
+
+  p("Use this application to create the .txt files that control the switching of channels in the Flow Multiplexer.
+     By default, the files are saved in the Downloads folder, and have today's date in the name file.", style = "font-size: 17px;"),
+
+  p(strong("Initial flush time"),
+    " corresponds to the first flushing of the chambers before obtaining adequate measurements. It's usually a short duration flushing (default is 2 minutes = 120 seconds).", style = "font-size: 17px;"),
+  
+  p(strong("Sampling flush time"),
+    " is the amount of time that the chamber is open to the inflow of the pump, and during which air flows into the FSM to analyze the gases (default is 8 minutes = 480 seconds).", style = "font-size: 17px;"),
+  
+  p(strong("Inter-repetition baseline time"),
+    " is the duration of a Channel 1 (Baseline) flush inserted between each sampling repetition to allow temperature to change between repetitions (default is 30 minutes = 1800 seconds).", style = "font-size: 17px;"),
+ 
+  p(strong("Number of repetitions"),
+    "is the number of times the respirometry cycle will be repeated.", style = "font-size: 17px;"),
+  
+  br(),
+  h4("Questions? Contact Matías I. Muñoz (ma.munozsandoval@gmail.com)", style = "color: #979797;"),
   br(),
   br(),
-  "The 'Initial flush time' corresponds to the first flushing of the chambers before obtaining adequate measurements. It's usually a short duration flushing (default is 2 minutes = 120 seconds).",
-  br(),
-  br(),
-  "The 'Sampling flush time' is the amount of time that the chamber is open to the inflow of the pump, and during which air flows into the FSM to analyze the gases. (default is 8 minutes = 480 seconds).",
-  br(),
-  br(),
-  "The 'Inter-repetition baseline time' is the duration of a Channel 1 (Baseline) flush inserted between each sampling repetition to allow temperature to change between repetitions (default is 30 minutes = 1800 seconds).",
-  br(),
-  br(),
-  "What to make changes? In the Desktop go to 'Matias_2026' folder, then 'ShinnyApps' folder, and edit the 'Shiny_Respirometry_setup_TEMPERATURE.R' file.",
-  br(),
-  br(),
-  "The original code can also be downloaded from: https://github.com/MatiasIMunoz/Respirometry-setup-app",
-  br(),
-  br(),
-  "ALWAYS MAKE SURE THE FILE IS CORRECT AFTER DOWNLOADING.",
-  br(),
-  br(),
+  
   sidebarLayout(
     sidebarPanel(
       checkboxGroupInput(
@@ -94,7 +111,7 @@ ui <- fluidPage(
       plotOutput("timeline_plot", height = "300px"),
       
       h4("Live preview of respirometry table:"),
-      tableOutput("preview_table"),
+      div(style = "display: flex; justify-content: center;",tableOutput("preview_table")),
       
       h4("Selected inputs:"),
       verbatimTextOutput("output")
@@ -102,6 +119,15 @@ ui <- fluidPage(
     )
   )
 )
+
+
+
+#************************************#
+#*
+#* Server ----
+#*
+#***********************************#
+
 
 server <- function(input, output, session) {
   output$output <- renderPrint({
@@ -130,7 +156,9 @@ server <- function(input, output, session) {
     current_time <- 0
     
     
+  
     
+      
     # ── Initial flush cycle ────────────────────────────────────────────────────
     for (ch in channels) {
       Seconds <- c(Seconds, current_time)
@@ -139,9 +167,10 @@ server <- function(input, output, session) {
       current_time <- current_time + initial_flush
     }
     
-    #df1 <- data.frame(Seconds = Seconds, Channel = Channel, Marker  = Marker, stringsAsFactors = FALSE)
+ 
     
-    
+ 
+       
     # ── Final baseline (sampling_flush) ────────────────────────────────────────
     Seconds <- c(Seconds, current_time)
     Marker  <- c(Marker, "B")
@@ -151,46 +180,7 @@ server <- function(input, output, session) {
     
     
     
-    
-    # # ── Sampling cycles with 30-min baselines between repetitions ─────────────
-    # for (rep in 1:n_reps) {
-    #   
-    #   # 30-min inter-repetition baseline — inserted BEFORE each rep except the first
-    #   if (rep > 1) {
-    #     Seconds <- c(Seconds, current_time)
-    #     Channel <- c(Channel, 0)
-    #     Marker  <- c(Marker,  "B")
-    #     current_time <- current_time + inter_rep_base
-    #   }
-    #   
-    #   # Add flushing of 2mins./channel after the 30 mins. baseline (6 June 2026)
-    #   sampling_channels <- channels[channels > 1]
-    #   
-    #   # for (ch in channels) {
-    #   #   Seconds <- c(Seconds, current_time)
-    #   #   Marker  <- c(Marker,  if (ch == 1) "B" else as.character(ch))
-    #   #   Channel <- c(Channel, if (ch == 1) 0   else ch - 1)
-    #   #   current_time <- current_time + initial_flush
-    #   # }
-    #   
-    #   
-    #   for (ch in sampling_channels) {
-    #     Seconds <- c(Seconds, current_time)
-    #     Marker  <- c(Marker,  as.character(ch))
-    #     Channel <- c(Channel, ch - 1)
-    #     current_time <- current_time + initial_flush
-    #   }
-    #   
-    #   # Sampling channels for this repetition - exclude Channel 1 baseline
-    #   for (ch in sampling_channels) {
-    #     Seconds <- c(Seconds, current_time)
-    #     Marker  <- c(Marker, as.character(ch))
-    #     Channel <- c(Channel, ch - 1)
-    #     current_time <- current_time + sampling_flush
-    #   }
-    #   
-    # 
-    # }
+
     
     
     # ── Sampling cycles with 30-min baselines between repetitions ─────────────
@@ -212,6 +202,14 @@ server <- function(input, output, session) {
           Channel <- c(Channel, ch - 1)
           current_time <- current_time + initial_flush
         }
+        
+        # Add 2-min baseline after flushing the channels with frogs
+         Seconds <- c(Seconds, current_time)
+         Marker  <- c(Marker, "B")
+         Channel <- c(Channel, 0)
+         
+         current_time <- current_time + initial_flush
+         
       }
       
       # Sampling for this repetition
@@ -222,6 +220,9 @@ server <- function(input, output, session) {
         current_time <- current_time + sampling_flush
       }
     }
+    
+    
+    
     
     # ── Two final baseline (Channel 1) rows, sampling_flush each ──────────────
     for (i in 1:2) {
@@ -241,6 +242,7 @@ server <- function(input, output, session) {
   
   
   
+  
   # ── Table preview ────────────────────────────────────────────────────────────
   output$preview_table <- renderTable({
     df <- respirometry_data()
@@ -248,6 +250,8 @@ server <- function(input, output, session) {
     df$Channel <- as.integer(df$Channel)
     df
   })
+  
+  
   
   # ── Timing summary ───────────────────────────────────────────────────────────
   output$final_timing <- renderText({
@@ -265,55 +269,10 @@ server <- function(input, output, session) {
       format(end_time, "%d/%B/%Y %H:%M:%S")
     )
   })
+ 
   
-  # ── ggplot2 timeline ─────────────────────────────────────────────────────────
-  # output$timeline_plot <- renderPlot({
-  #   df <- respirometry_data()
-  #   df$Seconds <- as.numeric(df$Seconds)
-  #   df$Minutes <- df$Seconds / 60
-  #   
-  #   # Total experiment duration in minutes (add last interval to get end)
-  #   total_min <- (tail(df$Seconds, 1) + as.numeric(input$sampling_flush)) / 60
-  #   
-  #   # Colour baselines differently from sample channels
-  #   df$EventType <- ifelse(df$Marker == "B", "Baseline", "Sample channel")
-  #   
-  #   ggplot(df, aes(x = Minutes, colour = EventType)) +
-  #     geom_vline(aes(xintercept = Minutes, colour = EventType),
-  #                linewidth = 0.8, alpha = 0.85) +
-  #   
-  #       # geom_text(aes(x = Minutes, y = 0.6, label = Marker),
-  #       #         angle = 0, vjust = -0.4, hjust = 1.5,
-  #       #         size = 3.2, show.legend = FALSE) +
-  #     
-  #     geom_label(aes(x = Minutes, y = 0.6, label = Marker), 
-  #                fill = "white",       # Background color
-  #                color = "black",      # Text color
-  #                fontface = "bold",
-  #                label.size = 0.4,
-  #                label.padding = unit(0.25, "lines"), # Padding around text
-  #                label.r = unit(0.15, "lines")) +      # Corner radius
-  #     
-  #     scale_colour_manual(
-  #       values = c("Baseline" = "red", "Sample channel" = "steelblue"),
-  #       name   = "Event type"
-  #     ) +
-  #     scale_x_continuous(
-  #       name   = "Time (minutes)",
-  #       limits = c(0, total_min),
-  #       expand = c(0.01, 0)
-  #     ) +
-  #     scale_y_continuous(limits = c(0, 1), breaks = NULL, name = NULL) +
-  #     #theme_minimal(base_size = 13) +
-  #     theme_bw()+
-  #     theme(
-  #       panel.grid.major = element_blank(),
-  #       panel.grid.minor   = element_blank(),
-  #       axis.text.y        = element_blank(),
-  #       axis.ticks.y       = element_blank(),
-  #       legend.position    = "top"
-  #     ) 
-  # })
+  
+  
   
   
   # ── ggplot2 timeline ─────────────────────────────────────────────────────────
@@ -339,7 +298,6 @@ server <- function(input, output, session) {
     }))
     
     ggplot(df, aes(x = Minutes, colour = EventType)) +
-      # Shaded baseline bands drawn first so they sit behind everything
       geom_rect(data = rect_df,
                 aes(xmin = xmin, xmax = xmax, ymin = ymin, ymax = ymax),
                 inherit.aes = FALSE,
@@ -377,6 +335,10 @@ server <- function(input, output, session) {
       ) 
   })
   
+  
+  
+  
+  
   # ── Download handler ─────────────────────────────────────────────────────────
   output$download_txt <- downloadHandler(
     filename = function() {
@@ -395,7 +357,10 @@ server <- function(input, output, session) {
   )
 }
 
-# Explicitly launch the app in the default browser
+
+
+
+# Launch the app in the default browser
 runApp(
   list(ui = ui, server = server),
   launch.browser = TRUE)
