@@ -1,14 +1,14 @@
 ---
-title: TEST
+title: Set up respirometry schedule apps.
 author: Matías I. Muñoz
 output: github_document
-date: "`r Sys.Date()`"
+#date: "`r Sys.Date()`"
 editor_options:
   chunk_output_type: console
 ---
 
 <!-- Short Description  -->
-This is a short description of the project
+Shiny apps for creating the .txt files that control the respirometry schedule.
 
 *Updated on `r Sys.time()`*
 
@@ -25,30 +25,30 @@ knitr::opts_chunk$set(
 ```
 
 
-## Table of contents
-* [General info](#general-info)
-  * [Analyses](#Analyses)
-    * [To do list](#to-do-list)
-      * [Contact](#contact)
+<!-- ## Table of contents -->
+<!-- * [General info](#general-info) -->
+<!--   * [Analyses](#Analyses) -->
+<!--     * [To do list](#to-do-list) -->
+<!--       * [Contact](#contact) -->
 
-## General info
+<!-- ## General info -->
 
-General information about the project (study system, goals, etc)
+<!-- General information about the project (study system, goals, etc) -->
 
-## Analysis
+<!-- ## Scripts -->
 
-* Analysis 1
+<!-- * Analysis 1 -->
 
-## In progress
+<!-- ## In progress -->
 
-*  Something not finished yet
+<!-- *  Something not finished yet -->
 
-## To-do list
+<!-- ## To-do list -->
 
-* Do the next analysis
+<!-- * Do the next analysis -->
 
 ## Status
 Project is: _in progress_
 
 ## Contact
-Created by [Autor name](website_URL)
+Created by [Matías I. Muñoz](https://sites.google.com/view/matiasmunozsandoval/home)
