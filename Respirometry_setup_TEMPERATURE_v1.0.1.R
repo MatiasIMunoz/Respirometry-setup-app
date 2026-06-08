@@ -15,7 +15,7 @@ ui <- fluidPage(
   titlePanel("Channel selection and timing inputs for frog stop-flow respirometry"),
   h3("Including long baseline for temperature manipulation"),
   h4("by Matias Munoz"),
-  h4("version: 1.0.1 (last update: 06 June 2026)"),
+  h4("version: 1.0.1 (last update: 08 June 2026)"),
   
   "Use this application to create the .txt files that control the switching of channels in the Flow Multiplexer.
      By default, the files are saved in the Downloads folder, and have today's date in the name file.",
@@ -30,7 +30,7 @@ ui <- fluidPage(
   "The 'Inter-repetition baseline time' is the duration of a Channel 1 (Baseline) flush inserted between each sampling repetition to allow temperature to change between repetitions (default is 30 minutes = 1800 seconds).",
   br(),
   br(),
-  "What to make changes? In the Desktop go to 'Matias_2026' folder, then 'ShinnyApps' folder, and edit the 'Shiny_Respirometry_setup.R' or 'Shiny_Respirometry_setup_TEMPERATURE.R' files.",
+  "What to make changes? In the Desktop go to 'Matias_2026' folder, then 'ShinnyApps' folder, and edit the 'Shiny_Respirometry_setup_TEMPERATURE.R' file.",
   br(),
   br(),
   "The original code can also be downloaded from: https://github.com/MatiasIMunoz/Respirometry-setup-app",

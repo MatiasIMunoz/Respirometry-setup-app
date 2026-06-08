@@ -5,24 +5,28 @@
 #Last update: 5 June 2026
 
 library(shiny)
-#library(lubridate)
+library(ggplot2)
 
 ui <- fluidPage(
   titlePanel("Channel selection and timing inputs\nfor frog stop-flow respirometry"),
   h4("by Matias Munoz"),
-  h4("version: 1.0.0 (last update: 05 June 2026)"),
+  h4("version: 1.0.1 (last update: 08 June 2026)"),
   
   "Use this App to create the .txt files that control the switching of channels in the Flow Multiplexer.
      By default, the files are saved in the Downloads folder, and have today's date in the name file.",
+  
   br(),
   br(),
-  "The 'Initial flush time' corresponds to the first flushing of the chambers before obtaining adequate measurements. It's usually a short duration flushing (e.g., default is 2 minutes).",
+  "The 'Initial flush time' corresponds to the first flushing of the chambers before obtaining adequate measurements. It's usually a short duration flushing (default is 2 minutes = 120 seconds).",
   br(),
   br(),
-  "The 'Sampling flush time' is the amount of time that the chamber is open to the inflow of the pump, and during which air flows into the FSM to analyze the gases. (e.g., default is 10 minutes).",
+  "The 'Sampling flush time' is the amount of time that the chamber is open to the inflow of the pump, and during which air flows into the FSM to analyze the gases. (default is 8 minutes = 480 seconds).",
   br(),
   br(),
-  "What to make changes? In the Desktop go to 'Matias 2025' folder, then 'ShinnyApps' folder, and edit the 'Shiny_Respirometry_setup.R' file.",
+  "What to make changes? In the Desktop go to 'Matias_2026' folder, then 'ShinnyApps' folder, and edit the 'Shiny_Respirometry_setup.R' file.",
+  br(),
+  br(),
+  "The original code can also be downloaded from: https://github.com/MatiasIMunoz/Respirometry-setup-app",
   br(),
   br(),
   "ALWAYS MAKE SURE THE FILE IS CORRECT AFTER DOWNLOADING.",
@@ -50,7 +54,7 @@ ui <- fluidPage(
       numericInput(
         inputId = "sampling_flush",
         label = "Sampling flush time (seconds):",
-        value = 600,
+        value = 480,
         step = 1,
         min = 0
       ),
@@ -70,6 +74,9 @@ ui <- fluidPage(
       
       h4("Final timing summary"),
       verbatimTextOutput("final_timing"),
+      
+      h4("Live preview of timeline:"),
+      plotOutput("timeline_plot", height = "300px"),
       
       h4("Live preview of respirometry table"),
       tableOutput("preview_table"),
@@ -158,7 +165,7 @@ server <- function(input, output, session) {
       round(final_minutes, 2), " minutes\n",
       round(final_hours, 2), " hours\n\n",
       "Estimated End Time (if you started exactly now):\n",
-      format(end_time, "%Y-%m-%d %H:%M:%S")
+      format(end_time, "%d/%B/%Y %H:%M:%S")
     )
   })
   
@@ -177,7 +184,74 @@ server <- function(input, output, session) {
       )
     }
   )
+  
+  
+  
+  
+  # ── ggplot2 timeline ─────────────────────────────────────────────────────────
+  output$timeline_plot <- renderPlot({
+    df <- respirometry_data()
+    df$Seconds <- as.numeric(df$Seconds)
+    df$Minutes <- df$Seconds / 60
+    
+    # Total experiment duration in minutes (add last interval to get end)
+    total_min <- (tail(df$Seconds, 1) + as.numeric(input$sampling_flush)) / 60
+    
+    # Colour baselines differently from sample channels
+    df$EventType <- ifelse(df$Marker == "B", "Baseline", "Sample channel")
+    
+    # ── Build baseline-interval rectangles ─────────────────────────────────────
+    # Each "B" row starts a shaded band that ends at the next event (or total_min)
+    baseline_idx <- which(df$Marker == "B")
+    
+    rect_df <- do.call(rbind, lapply(baseline_idx, function(i) {
+      xmin <- df$Minutes[i]
+      xmax <- if (i < nrow(df)) df$Minutes[i + 1] else total_min
+      data.frame(xmin = xmin, xmax = xmax, ymin = -Inf, ymax = Inf)
+    }))
+    
+    ggplot(df, aes(x = Minutes, colour = EventType)) +
+      # Shaded baseline bands drawn first so they sit behind everything
+      geom_rect(data = rect_df,
+                aes(xmin = xmin, xmax = xmax, ymin = ymin, ymax = ymax),
+                inherit.aes = FALSE,
+                fill   = "red",
+                alpha  = 0.10,
+                colour = NA) +
+      geom_vline(aes(xintercept = Minutes, colour = EventType),
+                 linewidth = 0.8, alpha = 0.85) +
+      geom_label(aes(x = Minutes, y = 0.6, label = Marker),
+                 fill          = "white",
+                 color         = "black",
+                 fontface      = "bold",
+                 size          = 3.5,
+                 label.padding = unit(0.25, "lines"),
+                 label.r       = unit(0.15, "lines"),
+                 label.size    = 0.6,
+                 show.legend   = FALSE) +
+      scale_colour_manual(
+        values = c("Baseline" = "red", "Sample channel" = "steelblue"),
+        name   = "Marker type"
+      ) +
+      scale_x_continuous(
+        name   = "Time (minutes)",
+        limits = c(0, total_min),
+        expand = c(0.01, 0)
+      ) +
+      scale_y_continuous(limits = c(0, 1), breaks = NULL, name = NULL) +
+      theme_bw(base_size = 15) +
+      theme(
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        axis.text.y      = element_blank(),
+        axis.ticks.y     = element_blank(),
+        legend.position  = "top"
+      ) 
+  })
 }
+
+
+
 
 
 # Explicitly launch the app in the default browser
