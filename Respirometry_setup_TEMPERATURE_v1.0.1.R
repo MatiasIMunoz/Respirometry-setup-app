@@ -1,4 +1,5 @@
 # A shiny app for creating the .txt files that control the SableSystems Multiplexer.
+# Including long baseline for temperature modification.
 # by Matías I. Muñoz (ma.munozsandoval@gmail.com)
 
 app_version <- "1.0.1"
