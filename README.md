@@ -19,8 +19,8 @@ launches it directly from R.
 
 #### *Step 1: Download the scripts*
 
-Download all required `.R` files and store them in a stable folder on
-your computer (e.g., Documents or Projects).
+Download all required `.R` files and store them in a folder on your
+computer.
 
 #### *Step 2: Locate Rscript on your computer*
 
@@ -28,7 +28,7 @@ Find the path to `Rscript.exe`. It is usually located in a folder like:
 
     C:\Program Files\R\R-4.5.3\bin\Rscript.exe
 
-(Your version number may differ.)
+(Your version number and location may differ.)
 
 #### *Step 3: Create a shortcut*
 
@@ -47,7 +47,7 @@ script.
 
 Give it a meaningful name (e.g., *Respirometry Setup App*) and assign an
 icon (some images (.ico) are available in the ‘App_icons’ folder in this
-repository). E.g.:
+repository). Like for example:
 
 <p align="center">
 <img src="App_icons/gazelle_thermometer2.png" width="80"/>
