@@ -281,3 +281,34 @@ runApp(
   list(ui = ui, server = server),
   launch.browser = TRUE
 )
+
+
+
+
+# > sessionInfo()
+# R version 4.3.1 (2023-06-16)
+# Platform: x86_64-apple-darwin20 (64-bit)
+# Running under: macOS 15.4.1
+# 
+# Matrix products: default
+# BLAS:   /System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vecLib.framework/Versions/A/libBLAS.dylib 
+# LAPACK: /Library/Frameworks/R.framework/Versions/4.3-x86_64/Resources/lib/libRlapack.dylib;  LAPACK version 3.11.0
+# 
+# locale:
+#   [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+# 
+# time zone: America/Chicago
+# tzcode source: internal
+# 
+# attached base packages:
+#   [1] stats     graphics  grDevices utils     datasets  methods   base     
+# 
+# other attached packages:
+#   [1] ggplot2_3.5.2 shiny_1.7.4.1
+# 
+# loaded via a namespace (and not attached):
+#   [1] vctrs_0.6.5        cli_3.6.5          knitr_1.49         rlang_1.1.6        xfun_0.50          generics_0.1.4     promises_1.2.0.1   xtable_1.8-4       glue_1.8.0        
+# [10] htmltools_0.5.8.1  httpuv_1.6.11      rsconnect_1.0.1    scales_1.4.0       rmarkdown_2.29     grid_4.3.1         tibble_3.2.1       evaluate_1.0.3     ellipsis_0.3.2    
+# [19] fastmap_1.2.0      yaml_2.3.10        lifecycle_1.0.4    compiler_4.3.1     dplyr_1.1.4        RColorBrewer_1.1-3 pkgconfig_2.0.3    Rcpp_1.1.0         rstudioapi_0.15.0 
+# [28] later_1.3.1        farver_2.1.2       digest_0.6.37      R6_2.5.1           tidyselect_1.2.0   dichromat_2.0-0.1  pillar_1.10.1      magrittr_2.0.4     withr_3.0.2       
+# [37] tools_4.3.1        gtable_0.3.6       mime_0.12    

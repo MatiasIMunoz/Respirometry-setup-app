@@ -13,8 +13,8 @@ Shiny apps for creating the .txt files that control the respirometry schedule.
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-## Status
-Project is: _in progress_
+<!-- ## Status -->
+<!-- Project is: _in progress_ -->
 
 
 ## How to create a desktop icon
