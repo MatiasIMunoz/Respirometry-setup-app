@@ -7,10 +7,8 @@ Shiny apps for creating the .txt files that control the respirometry
 schedule.
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-
-## Status
-
-Project is: *in progress*
+<!-- ## Status -->
+<!-- Project is: _in progress_ -->
 
 ## How to create a desktop icon
 
@@ -61,8 +59,10 @@ Double-click the shortcut to launch the Shiny app.
 ## Troubleshooting
 
 One reason launching may fail is if the required libraries are not
-installed, so if that happens make sure to check the code and install
-the required libraries.
+installed (the app requires ‘shiny’ and ‘ggplot2’).
+
+If that happens make sure to open the script in RStudio and install the
+required libraries.
 
 ## Contact
 

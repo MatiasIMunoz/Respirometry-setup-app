@@ -63,7 +63,9 @@ Double-click the shortcut to launch the Shiny app.
 
 ## Troubleshooting
 
-One reason launching may fail is if the required libraries are not installed, so if that happens make sure to check the code and install the required libraries.
+One reason launching may fail is if the required libraries are not installed (the app requires 'shiny' and 'ggplot2'). 
+
+If that happens make sure to open the script in RStudio and install the required libraries.
 
 
 
