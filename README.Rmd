@@ -8,7 +8,7 @@ editor_options:
 ---
 
 <!-- Short Description  -->
-Shiny apps for creating the .txt files that control the schedule for respirometry.
+Shiny apps for creating the .txt files that control the schedule for respirometry. The following apps are in the repository:
 
 1) **Respirometry_setup_v1.0.1.R**: script contains the app NOT including temperature manipulation.
 2) **Respirometry_setup_TEMPERATURE_v1.0.1.R**: script contains the app INCLUDING temperature manipulation (i.e., 30-min. baseline between repetitions).
@@ -19,7 +19,7 @@ Shiny apps for creating the .txt files that control the schedule for respirometr
 <!-- Project is: _in progress_ -->
 
 <h2>
-  How to create a desktop icon
+  A. How to create a desktop icon
   <img src="App_icons/gazelle_icon.png" width="40" style="vertical-align:middle;">
 </h2>
 
@@ -53,7 +53,7 @@ Replace `"C:\path\to\the\app\run_app.R"` with the actual path to your script.
 
 #### _Step 4: Name your shortcut_
 
-Give it a meaningful name (e.g., *Respirometry Setup App*) and assign an icon (some images (.ico) are available in the 'App_icons' folder in this repository). Like for example:
+Give it a meaningful name (e.g., *Respirometry Setup App*) and finish creating your shortcut. When created on the desktop, you can right-click and select _Properties_ and then _Change Icon..._ to assign a custom icon image to your new  (some images (.ico) are available in the 'App_icons' folder in this repository). Like for example:
 
 <p align="center">
   <img src="App_icons/gazelle_thermometer2.png" width="80"/>
@@ -64,8 +64,8 @@ Give it a meaningful name (e.g., *Respirometry Setup App*) and assign an icon (s
 
 Double-click the shortcut to launch the Shiny app. 
 
-
-## Troubleshooting
+<h2> B. Troubleshooting</h2>
+<!-- ## B) Troubleshooting -->
 
 One reason launching may fail is if the required libraries are not installed (the app requires 'shiny' and 'ggplot2'). 
 
@@ -73,5 +73,5 @@ If that happens make sure to open the script in RStudio and install the required
 
 
 
-## Contact
-Created by [Matías I. Muñoz](https://sites.google.com/view/matiasmunozsandoval/home)
+<h2> C. Contact</h2>
+Created by [Matías I. Muñoz](https://sites.google.com/view/matiasmunozsandoval/contact?authuser=0) (<ma.munozsandoval@gmail.com>)

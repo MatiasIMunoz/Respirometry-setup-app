@@ -4,7 +4,7 @@ Set up respirometry schedule apps.
 <!-- Short Description  -->
 
 Shiny apps for creating the .txt files that control the schedule for
-respirometry.
+respirometry. The following apps are in the repository:
 
 1)  **Respirometry_setup_v1.0.1.R**: script contains the app NOT
     including temperature manipulation.
@@ -16,10 +16,9 @@ respirometry.
 <!-- ## Status -->
 <!-- Project is: _in progress_ -->
 <h2>
-How to create a desktop icon
+A. How to create a desktop icon
 <img src="App_icons/gazelle_icon.png" width="40" style="vertical-align:middle;">
 </h2>
-<!-- ## How to create a desktop icon -->
 
 To run the Shiny app more easily, you can create a desktop shortcut that
 launches it directly from R.
@@ -52,9 +51,11 @@ script.
 
 #### *Step 4: Name your shortcut*
 
-Give it a meaningful name (e.g., *Respirometry Setup App*) and assign an
-icon (some images (.ico) are available in the ‘App_icons’ folder in this
-repository). Like for example:
+Give it a meaningful name (e.g., *Respirometry Setup App*) and finish
+creating your shortcut. When created on the desktop, you can right-click
+and select *Properties* and then *Change Icon…* to assign a custom icon
+image to your new (some images (.ico) are available in the ‘App_icons’
+folder in this repository). Like for example:
 
 <p align="center">
 <img src="App_icons/gazelle_thermometer2.png" width="80"/>
@@ -65,7 +66,10 @@ repository). Like for example:
 
 Double-click the shortcut to launch the Shiny app.
 
-## Troubleshooting
+<h2>
+B. Troubleshooting
+</h2>
+<!-- ## B) Troubleshooting -->
 
 One reason launching may fail is if the required libraries are not
 installed (the app requires ‘shiny’ and ‘ggplot2’).
@@ -73,7 +77,10 @@ installed (the app requires ‘shiny’ and ‘ggplot2’).
 If that happens make sure to open the script in RStudio and install the
 required libraries.
 
-## Contact
+<h2>
+C. Contact
+</h2>
 
 Created by [Matías I.
-Muñoz](https://sites.google.com/view/matiasmunozsandoval/home)
+Muñoz](https://sites.google.com/view/matiasmunozsandoval/contact?authuser=0)
+(<ma.munozsandoval@gmail.com>)
