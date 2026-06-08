@@ -6,7 +6,7 @@ Set up respirometry schedule apps.
 Shiny apps for creating the .txt files that control the respirometry
 schedule.
 
-<!-- *Updated on 2026-06-08 11:16:02.225835* -->
+<!-- *Updated on 2026-06-08 11:22:33.895502* -->
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 <!-- ## Table of contents -->
 <!-- * [General info](#general-info) -->
@@ -59,7 +59,9 @@ script.
 
 #### *Step 4: Name your shortcut*
 
-Give it a meaningful name (e.g., *Respirometry App*) and assign an icon.
+Give it a meaningful name (e.g., *Respirometry App*) and assign an icon
+(some images (.ico) are available in the ‘App_icons’ folder in this
+repository).
 
 #### *Step 5: Done*
 

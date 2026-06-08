@@ -83,7 +83,7 @@ Replace `"C:\path\to\the\app\run_app.R"` with the actual path to your script.
 
 #### _Step 4: Name your shortcut_
 
-Give it a meaningful name (e.g., *Respirometry App*) and assign an icon.
+Give it a meaningful name (e.g., *Respirometry App*) and assign an icon (some images (.ico) are available in the 'App_icons' folder in this repository).
 
 #### _Step 5: Done_
 
