@@ -7,7 +7,7 @@ Matías I. Muñoz
 Shiny apps for creating the .txt files that control the respirometry
 schedule.
 
-*Updated on 2026-06-08 11:02:32.107364*
+*Updated on 2026-06-08 11:09:04.896291*
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 <!-- ## Table of contents -->
@@ -27,6 +27,45 @@ schedule.
 ## Status
 
 Project is: *in progress*
+
+## How to create a desktop icon
+
+To run the Shiny app more easily, you can create a desktop shortcut that
+launches it directly from R.
+
+### Step 1 — Download the scripts
+
+Download all required `.R` files and store them in a stable folder on
+your computer (e.g., Documents or Projects).
+
+### Step 2 — Locate Rscript on your computer
+
+Find the path to `Rscript.exe`. It is usually located in a folder like:
+
+    C:\Program Files\R\R-4.5.3\bin\Rscript.exe
+
+(Your version number may differ.)
+
+### Step 3 — Create a shortcut
+
+1.  Right-click on your Desktop  
+2.  Select **New → Shortcut**  
+3.  In the location field, paste:
+
+<!-- -->
+
+    "C:\Program Files\R\R-4.5.3\bin\Rscript.exe" "C:\path\to\your\app\run_app.R"
+
+Replace `"C:\path\to\your\app\run_app.R"` with the actual path to your
+script.
+
+### Step 4 — Name your shortcut
+
+Give it a meaningful name (e.g., *Respirometry App*).
+
+### Step 5 — Done
+
+Double-click the shortcut to launch the Shiny app.
 
 ## Contact
 
