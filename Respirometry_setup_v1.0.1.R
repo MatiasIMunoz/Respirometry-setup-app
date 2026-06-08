@@ -9,7 +9,7 @@ library(ggplot2)
 
 ui <- fluidPage(
   titlePanel("Channel selection and timing inputs\nfor frog stop-flow respirometry"),
-  h4("by Matias Munoz"),
+  h4("by Matías Muñoz (ma.munozsandoval@gmail.com)"),
   h4("version: 1.0.1 (last update: 08 June 2026)"),
   
   "Use this App to create the .txt files that control the switching of channels in the Flow Multiplexer.
@@ -161,10 +161,10 @@ server <- function(input, output, session) {
     end_time <- Sys.time() + final_seconds
     
     paste0(
-      "Total Duration:\n",
+      "Total duration:\n",
       round(final_minutes, 2), " minutes\n",
       round(final_hours, 2), " hours\n\n",
-      "Estimated End Time (if you started exactly now):\n",
+      "Estimated end time (if you started exactly now):\n",
       format(end_time, "%d/%B/%Y %H:%M:%S")
     )
   })
