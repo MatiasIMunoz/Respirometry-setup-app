@@ -51,11 +51,12 @@ script.
 
 #### *Step 4: Name your shortcut*
 
-Give it a meaningful name (e.g., *Respirometry Setup App*) and finish
-creating your shortcut. When created on the desktop, you can right-click
-and select *Properties* and then *Change Icon…* to assign a custom icon
-image to your new (some images (.ico) are available in the ‘App_icons’
-folder in this repository). Like for example:
+Give it a meaningful name (e.g., *Respirometry Setup App*) and click
+*Finish* to create your shortcut. When created on the desktop, you can
+right-click on your shortcut and select *Properties* and then *Change
+Icon…* to assign a custom icon image to the app (some images (.ico) are
+available in the ‘App_icons’ folder in this repository). Like for
+example:
 
 <p align="center">
 <img src="App_icons/gazelle_thermometer2.png" width="80"/>

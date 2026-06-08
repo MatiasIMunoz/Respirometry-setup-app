@@ -53,7 +53,7 @@ Replace `"C:\path\to\the\app\run_app.R"` with the actual path to your script.
 
 #### _Step 4: Name your shortcut_
 
-Give it a meaningful name (e.g., *Respirometry Setup App*) and finish creating your shortcut. When created on the desktop, you can right-click and select _Properties_ and then _Change Icon..._ to assign a custom icon image to your new  (some images (.ico) are available in the 'App_icons' folder in this repository). Like for example:
+Give it a meaningful name (e.g., *Respirometry Setup App*) and click _Finish_ to create your shortcut. When created on the desktop, you can right-click on your shortcut and select _Properties_ and then _Change Icon..._ to assign a custom icon image to the app (some images (.ico) are available in the 'App_icons' folder in this repository). Like for example:
 
 <p align="center">
   <img src="App_icons/gazelle_thermometer2.png" width="80"/>
