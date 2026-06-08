@@ -6,21 +6,7 @@ Set up respirometry schedule apps.
 Shiny apps for creating the .txt files that control the respirometry
 schedule.
 
-<!-- *Updated on 2026-06-08 11:22:33.895502* -->
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-<!-- ## Table of contents -->
-<!-- * [General info](#general-info) -->
-<!--   * [Analyses](#Analyses) -->
-<!--     * [To do list](#to-do-list) -->
-<!--       * [Contact](#contact) -->
-<!-- ## General info -->
-<!-- General information about the project (study system, goals, etc) -->
-<!-- ## Scripts -->
-<!-- * Analysis 1 -->
-<!-- ## In progress -->
-<!-- *  Something not finished yet -->
-<!-- ## To-do list -->
-<!-- * Do the next analysis -->
 
 ## Status
 
@@ -59,13 +45,20 @@ script.
 
 #### *Step 4: Name your shortcut*
 
-Give it a meaningful name (e.g., *Respirometry App*) and assign an icon
-(some images (.ico) are available in the ‘App_icons’ folder in this
-repository).
+Give it a meaningful name (e.g., *Respirometry Setup App*) and assign an
+icon (some images (.ico) are available in the ‘App_icons’ folder in this
+repository). E.g.:
+
+<p align="center">
+<img src="App_icons/gazelle_thermometer2.png" width="80"/>
+<img src="App_icons/gazelle_icon.png" width="80"/>
+</p>
 
 #### *Step 5: Done*
 
 Double-click the shortcut to launch the Shiny app.
+
+## Troubleshooting
 
 One reason launching may fail is if the required libraries are not
 installed, so if that happens make sure to check the code and install
