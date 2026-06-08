@@ -1,14 +1,12 @@
 Set up respirometry schedule apps.
 ================
-Matías I. Muñoz
 
 <!-- Short Description  -->
 
 Shiny apps for creating the .txt files that control the respirometry
 schedule.
 
-*Updated on 2026-06-08 11:09:04.896291*
-
+<!-- *Updated on 2026-06-08 11:16:02.225835* -->
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 <!-- ## Table of contents -->
 <!-- * [General info](#general-info) -->
@@ -33,12 +31,12 @@ Project is: *in progress*
 To run the Shiny app more easily, you can create a desktop shortcut that
 launches it directly from R.
 
-### Step 1 — Download the scripts
+#### *Step 1: Download the scripts*
 
 Download all required `.R` files and store them in a stable folder on
 your computer (e.g., Documents or Projects).
 
-### Step 2 — Locate Rscript on your computer
+#### *Step 2: Locate Rscript on your computer*
 
 Find the path to `Rscript.exe`. It is usually located in a folder like:
 
@@ -46,7 +44,7 @@ Find the path to `Rscript.exe`. It is usually located in a folder like:
 
 (Your version number may differ.)
 
-### Step 3 — Create a shortcut
+#### *Step 3: Create a shortcut*
 
 1.  Right-click on your Desktop  
 2.  Select **New → Shortcut**  
@@ -54,18 +52,22 @@ Find the path to `Rscript.exe`. It is usually located in a folder like:
 
 <!-- -->
 
-    "C:\Program Files\R\R-4.5.3\bin\Rscript.exe" "C:\path\to\your\app\run_app.R"
+    "C:\Program Files\R\R-4.5.3\bin\Rscript.exe" "C:\path\to\the\app\run_app.R"
 
-Replace `"C:\path\to\your\app\run_app.R"` with the actual path to your
+Replace `"C:\path\to\the\app\run_app.R"` with the actual path to your
 script.
 
-### Step 4 — Name your shortcut
+#### *Step 4: Name your shortcut*
 
-Give it a meaningful name (e.g., *Respirometry App*).
+Give it a meaningful name (e.g., *Respirometry App*) and assign an icon.
 
-### Step 5 — Done
+#### *Step 5: Done*
 
 Double-click the shortcut to launch the Shiny app.
+
+One reason launching may fail is if the required libraries are not
+installed, so if that happens make sure to check the code and install
+the required libraries.
 
 ## Contact
 
