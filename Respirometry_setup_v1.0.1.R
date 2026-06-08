@@ -1,6 +1,6 @@
 # A shiny app for creating the .txt files that control the SableSystems Multiplexer.
-# version 1.0.0 
-# by Matias Munoz, May 2025.
+# version 1.0.1
+# by Matias Munoz
 
 #Last update: 5 June 2026
 
